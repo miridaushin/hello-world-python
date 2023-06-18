@@ -1,0 +1,16 @@
+name: CI_Python
+on: 
+  workflow_dispatch:
+
+jobs:
+  Build: 
+    run-on: ubuntu-latest
+     
+    steps:
+      - uses: actions/checkout@v3
+      - name: install requirments
+        run: pip install -r requirements.txt
+      - name: run and test application
+        run: python app.py &
+        run: sleep 5 & curl http://localhost:8080
+     
