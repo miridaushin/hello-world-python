@@ -1,16 +1,28 @@
-name: CI_Python
-on: 
+name: CI-Python
+on:
   workflow_dispatch:
-
+  
 jobs:
-  Build: 
+  Build:
     runs-on: ubuntu-latest
-     
+    
     steps:
-      - uses: actions/checkout@v3
-      - name: install requirments
-        run: pip install -r requirements.txt
-      - name: run and test application
-        run: python app.py &
-        run: sleep 5 & curl http://localhost:8080
-     
+    - uses: actions/checkout@v3
+    - name: install requirments
+      run: pip install -r requirements.txt
+    - uses: actions/cache@v3
+      with:
+        path: .  # Note that this path is not influenced by working-directory set in defaults, for example
+        key: python-cache
+
+  Test:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/cache@v3
+      with:
+        path: .  # Note that this path is not influenced by working-directory set in defaults, for example
+        key: python-cache
+    - name: run & test the app
+      run: python app.py &
+    - run: sleep 5 && curl localhost:8080
