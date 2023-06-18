@@ -4,7 +4,7 @@ on:
 
 jobs:
   Build:
-    runs-on: self-hosted
+    runs-on: first_runner
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
